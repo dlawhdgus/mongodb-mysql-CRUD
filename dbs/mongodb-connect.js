@@ -1,16 +1,13 @@
-const mongoose = require('mongoose')
 const config = require('../config.json')
+const mongoose = require('mongoose')
 
 mongoose.connect(config.mongodb.connect_string, {
-    dbName : db
+    dbName: 'db'
 })
 
 const db = mongoose.connection
-
-exports.db_connect = db.once("open",() => {
-    console.log('mongodb connected')  
+exports.db_connect = db.once("open", () => {
+    console.log('MongoDB Connected')
 })
 
-db.on("error", (e) => {
-    if(e) throw e
-})
+db.on("error", (e) => { if (e) console.log(e) })
