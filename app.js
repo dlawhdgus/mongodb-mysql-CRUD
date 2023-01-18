@@ -9,7 +9,7 @@ const FileStroe = require('session-file-store')(session)
 const routes = require('./routes')
 
 app.use(session({
-    secret: 'randomString',
+    secret: 'luwygdfo',
     resave: false,
     saveUninitialized: true,
     store: new FileStroe({ logFn: () => { } })
@@ -19,7 +19,7 @@ app.use(session({
 app.use(bodyParser.json())
 app.use(express.static(__dirname + '/public'))
 app.use(express.urlencoded({ extended: true }))
-app.use('/',routes)
+app.use('/', routes)
 
 app.set('views', './public/views')
 app.set('view engine', 'ejs')

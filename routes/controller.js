@@ -1,6 +1,5 @@
 const mongodb_callback = require('../models/mongodb')
 const mysql_callback = require('../models/mysql')
-const session = require('express-session')
 const crypto = require('../modules/crypto')
 
 exports.index = (req, res) => {
@@ -21,7 +20,7 @@ exports.sign_up_logic = async (req, res) => {
 
     const check_id = await mongodb_callback.check_duplication_id(id)
 
-    if (check_id) {
+        if (check_id) {
         res.write("<script>alert('id is duplicate');history.back();</script>")
     } else {
         if (id_regex.test(id) && pw_regex.test(pw) && email_regex.test(email)) {
@@ -32,10 +31,11 @@ exports.sign_up_logic = async (req, res) => {
             UserFilter.email = email
 
             const SignUpUser = await mongodb_callback.SignUp(UserFilter)
+
             const user_data = await mongodb_callback.check_duplication_id(id)
 
-            req.session.userdata = user_data._id
-            res.redirect('sign-in?id=' + user_data._id)
+            req.session.user_id = String(user_data._id).split('"')[0]
+            res.redirect('sign-in?id=' + String(user_data._id).split('"')[0])
 
         } else {
             if (id_regex.test(id)) {
@@ -48,7 +48,7 @@ exports.sign_up_logic = async (req, res) => {
 
                         const SignUpUser = await mongodb_callback.SignUp(UserFilter)
                         const user_data = await mongodb_callback.check_duplication_id(id)
-
+                        console.log(user_data._id)
                         req.session.userdata = user_data._id
                         res.redirect('sign-in?id=' + user_data._id)
 
@@ -73,4 +73,9 @@ exports.sign_up_logic = async (req, res) => {
 exports.sign_in = (req, res) => {
     const { id } = req.query
     res.render('sign-in', {data : `${id}`})
+}
+
+exports.logout = (req,res) => {
+    req.session.destroy(() => {})
+    res.redirect('/')
 }
