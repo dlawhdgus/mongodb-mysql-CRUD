@@ -75,6 +75,22 @@ exports.sign_in = (req, res) => {
     res.render('sign-in', { data: `${user_id}` })
 }
 
+exports.index_sign_in = async (req, res) => {
+    const { id, pw } = req.body
+    const userdata = await mongodb_callback.login(id)
+    if(userdata) {
+        user_id = String(userdata._id).split('"')[0]
+        if(pw === crypto.decoding(userdata.pw)) {
+            req.session.user_data = user_id
+            res.render('sign-in', { data: `${user_id}` })
+        } else {
+            res.write("<script>alert('wrong password');history.back();</script>")
+        }
+    } else {
+        res.write("<script>alert('wrong id');history.back();</script>")
+    }
+}
+
 exports.logout = (req, res) => {
     req.session.destroy(() => { })
     res.redirect('/')

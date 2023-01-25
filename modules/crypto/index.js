@@ -6,7 +6,7 @@ exports.encodig = (password) => {
 }
 
 exports.decoding = (password) => {
-    const bytes = cryptojs.AES.decrypt(password, config.SECRET_KEY)
+    const bytes = cryptojs.AES.decrypt(password, config.crypto.SECRET_KEY)
     const decode = JSON.parse(bytes.toString(cryptojs.enc.Utf8))
     return decode
 }
