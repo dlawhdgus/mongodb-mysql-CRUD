@@ -1,4 +1,7 @@
 form {
     float: left;
-    margin-left: 3px;
+}
+
+#first_button {
+    margin-right: 3px;
 }

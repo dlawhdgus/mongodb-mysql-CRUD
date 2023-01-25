@@ -1,3 +1,11 @@
 input {
     margin-bottom: 3px;
 }
+
+div {
+    float: left;
+}
+
+#first_box {
+    margin-right: 3px;
+}
