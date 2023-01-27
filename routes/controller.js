@@ -21,7 +21,7 @@ exports.sign_up_logic = async (req, res) => {
     const check_id = await mongodb_callback.check_duplication_id(id)
 
     if (check_id) {
-        res.write("<script>alert('id is duplicate');history.back();</script>")
+        res.write("<script>alert('아이디가 중복되었습니다');history.back();</script>", "utf8")
     } else {
         if (id_regex.test(id) && pw_regex.test(pw) && email_regex.test(email)) {
 
@@ -53,46 +53,75 @@ exports.sign_up_logic = async (req, res) => {
                         res.redirect('sign-in')
 
                     } else {
-                        res.write("<script>alert('check the email format');history.back();</script>")
+                        res.write("<script>alert('이메일 형식에 맞춰주세요');history.back();</script>", "utf8")
                     }
                 } else {
                     res.write(`
                     <script>
-                        alert('password format is English,Number');
+                        alert('비밀번호는 영문,숫자만 가능합니다');
                         history.back();
-                    </script>`)
+                    </script>`, "utf8")
                 }
             } else {
-                res.write("<script>alert('id format is only English');history.back();</script>")
+                res.write("<script>alert('아이디는 영문만 가능합니다');history.back();</script>", "utf8")
             }
         }
     }
 
 }
 
-exports.sign_in = (req, res) => {
-    const { user_id } = req.session
-    
-    res.render('sign-in', { data: `${user_id}` })
+exports.sign_in = async (req, res) => {
+    const { user_data } = req.session
+    if (!user_data) {
+        res.write("<script>alert('로그인 후 이용해주세요');history.back();</script>", "utf8")
+    } else {
+        const userdata = await mongodb_callback.check_obj_id(user_data)
+        res.render('sign-in', { data: userdata })
+    }
 }
 
 exports.index_sign_in = async (req, res) => {
     const { id, pw } = req.body
     const userdata = await mongodb_callback.login(id)
-    if(userdata) {
+    if (userdata) {
         user_id = String(userdata._id).split('"')[0]
-        if(pw === crypto.decoding(userdata.pw)) {
+        if (pw === crypto.decoding(userdata.pw)) {
             req.session.user_data = user_id
-            res.render('sign-in', { data: `${user_id}` })
+            const userdata = await mongodb_callback.check_obj_id(user_id)
+            res.render('sign-in', { data: userdata })
         } else {
-            res.write("<script>alert('wrong password');history.back();</script>")
+            res.write("<script>alert('잘못된 비밀번호');history.back();</script>", "utf8")
         }
     } else {
-        res.write("<script>alert('wrong id');history.back();</script>")
+        res.write("<script>alert('잘못된 아이디');history.back();</script>", "utf8")
     }
 }
 
 exports.logout = (req, res) => {
     req.session.destroy(() => { })
     res.redirect('/')
+}
+
+///////////edit////////
+
+exports.update = async (req, res) => {
+    const { user_data } = req.session
+    const userdata = await mongodb_callback.check_obj_id(user_data)
+    res.render('update_sign-in', { data: userdata })
+}
+
+exports.update_logic = async (req, res) => {
+    const { id, nickname, email } = req.body
+    const { user_data } = req.session
+    const UpdateQuery = {}
+    if(!id || !nickname || !email) {
+        res.write("<script>alert('빈칸을 입력해주세요');history.back();</script>", "utf8")
+    } else {
+        UpdateQuery.id = id
+        UpdateQuery.name = nickname
+        UpdateQuery.email = email
+        const user_update = await mongodb_callback.update_user(user_data,UpdateQuery)
+        const userdata = await mongodb_callback.check_obj_id(user_data)
+        res.render('sign-in',{data : userdata})
+    }
 }

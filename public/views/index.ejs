@@ -8,21 +8,23 @@
     <link rel="stylesheet" type="text/css" href="/css/index_css.css" />
 </head>
 <body>
-    <form method="post" action="/index_sign-in">
-        <div id="box">
-            ID : &nbsp;   <input name="id" type="text" autofocus><br>
-            PW :          <input name="pw" type="password">
+    <div id="main">
+        <form method="post" action="/index_sign-in">
+            <div id="box">
+                아이디 &nbsp;&nbsp; : &nbsp;&nbsp;<input name="id" type="text" autofocus><br>
+                비밀번호 : &nbsp; <input name="pw" type="password">
+            </div>
+            <div id="box">
+                &nbsp;
+            </div>
+            <div id="box">
+                <button type="submit">로그인</button>
+            </div>
+        </form><br><br><br>
+        <div id="reg">
+            <a href="/sign-up">회원가입</a> | 
+            <a href="/sign-in">로그인</a>
         </div>
-        <div id="box">
-            &nbsp;
-        </div>
-        <div id="box">
-            <button type="submit">로그인</button>
-        </div>
-    </form><br><br><br>
-    <div id="reg">
-        <a href="/sign-up">Sign-Up</a> | 
-        <a href="/sign-in">Sign-In</a>
     </div>
 </body>
 </html>
