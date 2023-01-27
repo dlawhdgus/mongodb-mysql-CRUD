@@ -72,6 +72,7 @@ exports.sign_up_logic = async (req, res) => {
 
 exports.sign_in = (req, res) => {
     const { user_id } = req.session
+    
     res.render('sign-in', { data: `${user_id}` })
 }
 
