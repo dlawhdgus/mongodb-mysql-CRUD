@@ -29,12 +29,13 @@ exports.sign_up_logic = async (req, res) => {
             UserFilter.pw = crypto.encodig(pw)
             UserFilter.name = name
             UserFilter.email = email
+            UserFilter.flag = 'u'
 
             const SignUpUser = await mongodb_callback.SignUp(UserFilter)
             const user_data = await mongodb_callback.check_duplication_id(id)
 
-            req.session.user_id = String(user_data._id).split('"')[0]
-            res.redirect('sign-in')
+            req.session.user_data = String(user_data._id).split('"')[0]
+            res.render('sign-in',{data : user_data})
 
         } else {
             if (id_regex.test(id)) {
@@ -50,7 +51,7 @@ exports.sign_up_logic = async (req, res) => {
 
                         req.session.userdata = user_data._id
 
-                        res.redirect('sign-in')
+                        res.redirect('sign-in',{data : user_data})
 
                     } else {
                         res.write("<script>alert('이메일 형식에 맞춰주세요');history.back();</script>", "utf8")
@@ -76,7 +77,11 @@ exports.sign_in = async (req, res) => {
         res.write("<script>alert('로그인 후 이용해주세요');history.back();</script>", "utf8")
     } else {
         const userdata = await mongodb_callback.check_obj_id(user_data)
-        res.render('sign-in', { data: userdata })
+        if(userdata.flag === 'u') {
+            res.render('sign-in', { data: userdata })
+        } else {
+            res.render('admin-user_list')
+        }
     }
 }
 
@@ -88,7 +93,11 @@ exports.index_sign_in = async (req, res) => {
         if (pw === crypto.decoding(userdata.pw)) {
             req.session.user_data = user_id
             const userdata = await mongodb_callback.check_obj_id(user_id)
-            res.render('sign-in', { data: userdata })
+            if(userdata.flag === 'u') {
+                res.render('sign-in', { data: userdata })
+            } else {
+                res.render('admin-user_list')
+            }
         } else {
             res.write("<script>alert('잘못된 비밀번호');history.back();</script>", "utf8")
         }
@@ -114,14 +123,21 @@ exports.update_logic = async (req, res) => {
     const { id, nickname, email } = req.body
     const { user_data } = req.session
     const UpdateQuery = {}
-    if(!id || !nickname || !email) {
+    if (!id || !nickname || !email) {
         res.write("<script>alert('빈칸을 입력해주세요');history.back();</script>", "utf8")
     } else {
         UpdateQuery.id = id
         UpdateQuery.name = nickname
         UpdateQuery.email = email
-        const user_update = await mongodb_callback.update_user(user_data,UpdateQuery)
+        const user_update = await mongodb_callback.update_user(user_data, UpdateQuery)
         const userdata = await mongodb_callback.check_obj_id(user_data)
-        res.render('sign-in',{data : userdata})
+        res.render('sign-in', { data: userdata })
     }
+}
+
+
+exports.delete_logic = async (req, res) => {
+    const { user_data } = req.session
+    const delete_user = await mongodb_callback.delete_user(user_data)
+    res.render('index')
 }
