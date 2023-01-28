@@ -1,0 +1,24 @@
+.title {
+    margin-left: 32px;
+}
+
+div {
+    float: left;
+    margin-right: 5px;
+}
+
+#number {
+    width: 30px;
+}
+
+#id {
+    width: 75px;
+}
+
+#nickname {
+    width: 75px;
+}
+
+#email {
+    width: 100px;
+}

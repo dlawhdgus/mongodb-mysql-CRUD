@@ -24,10 +24,15 @@ exports.check_obj_id = async (id) => {
 
 exports.update_user = async (ObjId, UpdateQuery) => {
     ObjId = mongoose.Types.ObjectId(`${ObjId}`)
-    UserColl.updateOne({_id : ObjId}, {$set : UpdateQuery})
+    UserColl.updateOne({ _id: ObjId }, { $set: UpdateQuery })
 }
 
 exports.delete_user = async (id) => {
     id = mongoose.Types.ObjectId(`${id}`)
-    const delete_user = await UserColl.deleteOne({_id : id})
+    const delete_user = await UserColl.deleteOne({ _id: id })
+}
+
+exports.AllUserData = async () => {
+    const userdata = UserColl.find({ flag: 'u' }).toArray()
+    return userdata
 }

@@ -35,7 +35,7 @@ exports.sign_up_logic = async (req, res) => {
             const user_data = await mongodb_callback.check_duplication_id(id)
 
             req.session.user_data = String(user_data._id).split('"')[0]
-            res.render('sign-in',{data : user_data})
+            res.render('sign-in', { data: user_data })
 
         } else {
             if (id_regex.test(id)) {
@@ -51,7 +51,7 @@ exports.sign_up_logic = async (req, res) => {
 
                         req.session.userdata = user_data._id
 
-                        res.redirect('sign-in',{data : user_data})
+                        res.redirect('sign-in', { data: user_data })
 
                     } else {
                         res.write("<script>alert('이메일 형식에 맞춰주세요');history.back();</script>", "utf8")
@@ -77,10 +77,11 @@ exports.sign_in = async (req, res) => {
         res.write("<script>alert('로그인 후 이용해주세요');history.back();</script>", "utf8")
     } else {
         const userdata = await mongodb_callback.check_obj_id(user_data)
-        if(userdata.flag === 'u') {
+        if (userdata.flag === 'u') {
             res.render('sign-in', { data: userdata })
         } else {
-            res.render('admin-user_list')
+            const userdata = await mongodb_callback.AllUserData()
+            res.render('admin-user_list', { data: userdata })
         }
     }
 }
@@ -93,10 +94,11 @@ exports.index_sign_in = async (req, res) => {
         if (pw === crypto.decoding(userdata.pw)) {
             req.session.user_data = user_id
             const userdata = await mongodb_callback.check_obj_id(user_id)
-            if(userdata.flag === 'u') {
+            if (userdata.flag === 'u') {
                 res.render('sign-in', { data: userdata })
             } else {
-                res.render('admin-user_list')
+                const userdata = await mongodb_callback.AllUserData()
+                res.render('admin-user_list', { data: userdata })
             }
         } else {
             res.write("<script>alert('잘못된 비밀번호');history.back();</script>", "utf8")

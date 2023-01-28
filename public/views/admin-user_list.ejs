@@ -1,12 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Users-List</title>
+    <link rel="stylesheet" type="text/css" href="/css/admin-user_list.css" />
 </head>
+
 <body>
     <!-- users-list -->
+    <div class="title">
+        <div id="id">아이디</div>
+        <div id="nickname">닉네임</div>
+        <div id="email">이메일</div>
+    </div><br><br>
+    <hr>
+    <% for(var i=0; i<data.length; i++) { %>
+        <div id="number">
+            <%= i+1 %>
+        </div>
+        <div id="id">
+            <%= data[i].id %>
+        </div>
+        <div id="nickname">
+            <%= data[i].name %>
+        </div>
+        <div id="email">
+            <%= data[i].email %>
+        </div><br><br>
+        <hr>
+        <% } %>
 </body>
+
 </html>
