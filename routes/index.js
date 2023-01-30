@@ -10,5 +10,6 @@ router.post('/logout', controller.logout)
 router.get('/update', controller.update)
 router.post('/update-logic', controller.update_logic)
 router.post('/delete-logic', controller.delete_logic)
+router.post('/admin_user_update', controller.admin_user_update)
 
 module.exports = router

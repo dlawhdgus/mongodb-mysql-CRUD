@@ -91,18 +91,22 @@ exports.index_sign_in = async (req, res) => {
     const userdata = await mongodb_callback.login(id)
     if (userdata) {
         user_id = String(userdata._id).split('"')[0]
+
         if (pw === crypto.decoding(userdata.pw)) {
             req.session.user_data = user_id
             const userdata = await mongodb_callback.check_obj_id(user_id)
+
             if (userdata.flag === 'u') {
                 res.render('sign-in', { data: userdata })
             } else {
                 const userdata = await mongodb_callback.AllUserData()
                 res.render('admin-user_list', { data: userdata })
             }
+
         } else {
             res.write("<script>alert('잘못된 비밀번호');history.back();</script>", "utf8")
         }
+
     } else {
         res.write("<script>alert('잘못된 아이디');history.back();</script>", "utf8")
     }
@@ -142,4 +146,10 @@ exports.delete_logic = async (req, res) => {
     const { user_data } = req.session
     const delete_user = await mongodb_callback.delete_user(user_data)
     res.render('index')
+}
+
+exports.admin_user_update = async (req,res) => {
+    const { id } = req.body
+    const userdata = await mongodb_callback.check_duplication_id(id)
+    res.render('admin_user_update', { data : userdata})
 }

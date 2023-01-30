@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Users-List</title>
+    <title>Users-Update</title>
     <link rel="stylesheet" type="text/css" href="/css/admin-user_list.css" />
 </head>
 
@@ -21,18 +21,23 @@
         <div id="number">
             <%= i+1 %>
         </div>
-        <div id="id">
-            <%= data[i].id %>
-        </div>
-        <div id="nickname">
-            <%= data[i].name %>
-        </div>
-        <div id="email">
-            <%= data[i].email %>
-        </div>
         <form action="/admin_user_update" method="post">
+            <div id="id">
+                <input type="text" value="<%= data[i].id %>" name="id">
+            </div>
+            <div id="nickname">
+                <input type="text" value="<%= data[i].name %>" name="nickname">
+            </div>
+            <div id="email">
+                <input type="email" value="<%= data[i].email %>" name="email">
+            </div>
             <button type="submit">수정</button>
-            <input type="hidden" value="<%= data[i].id %>" name="id">
+        </form>
+        <form>
+            <button type="submit">삭제</button>
+        </form>
+        <form>
+            <button type="submit">목록</button>
         </form>
         <br><br>
         <hr>
