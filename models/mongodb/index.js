@@ -42,5 +42,5 @@ exports.update_user_id = async (original_id, UpdateQuery) => {
 }
 
 exports.delete_user_id = async (id) => {
-    const user_delete = UserColl.deleteOne({id : id})
+    const user_delete = UserColl.deleteOne({ id: id })
 }

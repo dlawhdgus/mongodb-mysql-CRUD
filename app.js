@@ -12,7 +12,10 @@ app.use(session({
     secret: 'luwygdfo',
     resave: false,
     saveUninitialized: true,
-    store: new FileStroe({ logFn: () => { } })
+    store: new FileStroe({ logFn: () => { } }),
+    cookie: {
+        maxAge: 1800000 //30min
+    }
 }))
 
 
