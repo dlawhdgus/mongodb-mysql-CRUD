@@ -31,8 +31,8 @@
             <%= data[i].email %>
         </div>
         <form action="/admin_user_update" method="post">
-            <button type="submit">수정</button>
             <input type="hidden" value="<%= data[i].id %>" name="id">
+            <button type="submit">수정</button>
         </form>
         <br><br>
         <hr>

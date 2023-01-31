@@ -36,3 +36,11 @@ exports.AllUserData = async () => {
     const userdata = UserColl.find({ flag: 'u' }).toArray()
     return userdata
 }
+
+exports.update_user_id = async (original_id, UpdateQuery) => {
+    const userdata = UserColl.updateOne({ id: original_id }, { $set: UpdateQuery })
+}
+
+exports.delete_user_id = async (id) => {
+    const user_delete = UserColl.deleteOne({id : id})
+}

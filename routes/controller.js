@@ -29,7 +29,7 @@ exports.sign_up_logic = async (req, res) => {
             UserFilter.pw = crypto.encodig(pw)
             UserFilter.name = name
             UserFilter.email = email
-            UserFilter.flag = 'u'
+            UserFilter.flag = 'a'
 
             const SignUpUser = await mongodb_callback.SignUp(UserFilter)
             const user_data = await mongodb_callback.check_duplication_id(id)
@@ -147,9 +147,36 @@ exports.delete_logic = async (req, res) => {
     const delete_user = await mongodb_callback.delete_user(user_data)
     res.render('index')
 }
-
-exports.admin_user_update = async (req,res) => {
+``
+exports.admin_user_update = async (req, res) => {
     const { id } = req.body
     const userdata = await mongodb_callback.check_duplication_id(id)
-    res.render('admin_user_update', { data : userdata})
+    res.render('admin_user_update', { data: userdata })
+}
+
+exports.admin_user_edit = async (req, res) => {
+    const { id, nickname, email, original_id } = req.body
+    const UpdateQuery = {}
+
+    UpdateQuery.id = id
+    UpdateQuery.name = nickname
+    UpdateQuery.email = email
+    console.log(UpdateQuery)
+
+    const user_update = mongodb_callback.update_user_id(original_id, UpdateQuery)
+    const userdata = await mongodb_callback.AllUserData()
+    console.log(userdata)
+    res.render('admin-user_list', { data: userdata })
+}
+
+exports.admin_user_list = async (req, res) => {
+    const userdata = await mongodb_callback.AllUserData()
+    res.render('admin-user_list', { data: userdata })
+}
+
+exports.admin_user_delete = async (req, res) => {
+    const { original_id } = req.body
+    const user_delete = await mongodb_callback.delete_user_id(original_id)
+    const userdata = await mongodb_callback.AllUserData()
+    res.render('admin-user_list', { data: userdata })
 }

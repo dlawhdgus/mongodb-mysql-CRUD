@@ -12,13 +12,13 @@ div {
 }
 
 #id {
-    width: 75px;
+    width: auto
 }
 
 #nickname {
-    width: 75px;
+    width: auto
 }
 
 #email {
-    width: 100px;
+    width: auto
 }

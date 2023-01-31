@@ -27,5 +27,5 @@ app.set('view engine', 'ejs')
 app.listen(cofig.port, () => {
     mongodb_connect
     mysql_connect
-    console.log(`https://login.jp.ngrok.io`)
+    console.log(`https://local.jp.ngrok.io`)
 })
