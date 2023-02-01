@@ -19,6 +19,7 @@ exports.sign_up_logic = async (req, res) => {
     const UserFilter = {}
 
     const check_id = await mongodb_callback.check_duplication_id(id)
+    const check_id_mysql = mysql_callback.find_user_id(id)
 
     if (check_id) {
         res.write("<script>alert('아이디가 중복되었습니다');history.back();</script>", "utf8")
@@ -29,11 +30,13 @@ exports.sign_up_logic = async (req, res) => {
             UserFilter.pw = crypto.encodig(pw)
             UserFilter.name = name
             UserFilter.email = email
-            UserFilter.flag = 'a'
+            UserFilter.flag = 'u'
 
             const SignUpUser = await mongodb_callback.SignUp(UserFilter)
+            const Insert_user_mysql = await mysql_callback.Insert_user(id,crypto.encodig(pw),name,email,'u')
             const user_data = await mongodb_callback.check_duplication_id(id)
-
+            const check_id_mysql = mysql_callback.find_user_id(id)
+            console.log(check_id_mysql)
             req.session.user_data = String(user_data._id).split('"')[0]
             res.render('sign-in', { data: user_data })
 
@@ -161,11 +164,9 @@ exports.admin_user_edit = async (req, res) => {
     UpdateQuery.id = id
     UpdateQuery.name = nickname
     UpdateQuery.email = email
-    console.log(UpdateQuery)
 
     const user_update = mongodb_callback.update_user_id(original_id, UpdateQuery)
     const userdata = await mongodb_callback.AllUserData()
-    console.log(userdata)
     res.render('admin-user_list', { data: userdata })
 }
 
