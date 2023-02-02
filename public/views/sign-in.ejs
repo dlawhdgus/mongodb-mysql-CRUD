@@ -13,9 +13,9 @@
     아이디 : <%= data.id %><br>
     닉네임 : <%= data.name %><br>
     이메일 : <%= data.email %><br>
-    <form id="edit_button" action="/update" method="get"><button type="submit">수정</button></form>
-    <form id="first_button" action="/logout" method="post"><button type="submit">로그아웃</button></form>
-    <form action="/" method="get"><button type="submit">홈으로</button></form>
+    <form id="edit_button" action="/users/update" method="get"><button type="submit">수정</button></form>
+    <form id="first_button" action="/users/logout" method="post"><button type="submit">로그아웃</button></form>
+    <form action="/users/login" method="get"><button type="submit">홈으로</button></form>
 </body>
 
 </html>

@@ -10,22 +10,22 @@
 </head>
 
 <body>
-    <form action="/admin_user_edit" method="post">
+    <form action="/admin/user_edit" method="post">
         <input type="text" value="<%= data.id %>" name="id"><br>
         <input type="text" value="<%= data.name %>" name="nickname"><br>
         <input type="email" value="<%= data.email %>" name="email"><br>
         <input type="hidden" value="<%= data.id %>" name="original_id">
-        <div id="button"><button type="submit">수정</button></div>
+        <div id="button"><button onclick="location.reload(true)" type="submit">수정</button></div>
     </form>
     <div id="button">
-        <form action="/admin_user_delete" method="post">
+        <form action="/admin/user_delete" method="post">
             <input type="hidden" value="<%= data.id %>" name="original_id">
-            <button type="submit">삭제</button>
+            <button onclick="location.reload(true)" type="submit">삭제</button>
         </form>
     </div>
     <div id="button">
-        <form action="/admin_user_list" method="get">
-            <button type="submit">목록</button>
+        <form action="/admin/user_list" method="get">
+            <button onclick="location.reload(true)" type="submit">목록</button>
         </form>
     </div>
 </body>

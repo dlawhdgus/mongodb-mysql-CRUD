@@ -1,6 +1,6 @@
-const mongodb_callback = require('../models/mongodb')
-const mysql_callback = require('../models/mysql')
-const crypto = require('../modules/crypto')
+const mongodb_callback = require('../../models/mongodb')
+const mysql_callback = require('../../models/mysql')
+const crypto = require('../../modules/crypto')
 
 exports.index = (req, res) => {
     res.render('index')
@@ -19,7 +19,6 @@ exports.sign_up_logic = async (req, res) => {
     const UserFilter = {}
 
     const check_id = await mongodb_callback.check_duplication_id(id)
-    const check_id_mysql = mysql_callback.find_user_id(id)
 
     if (check_id) {
         res.write("<script>alert('아이디가 중복되었습니다');history.back();</script>", "utf8")
@@ -32,11 +31,8 @@ exports.sign_up_logic = async (req, res) => {
             UserFilter.email = email
             UserFilter.flag = 'u'
 
-            const SignUpUser = await mongodb_callback.SignUp(UserFilter)
-            const Insert_user_mysql = await mysql_callback.Insert_user(id,crypto.encodig(pw),name,email,'u')
+            const SignUpUser = await mongodb_callback.Insert_user(UserFilter)
             const user_data = await mongodb_callback.check_duplication_id(id)
-            const check_id_mysql = mysql_callback.find_user_id(id)
-            console.log(check_id_mysql)
             req.session.user_data = String(user_data._id).split('"')[0]
             res.render('sign-in', { data: user_data })
 
@@ -49,7 +45,7 @@ exports.sign_up_logic = async (req, res) => {
                         UserFilter.name = name
                         UserFilter.email = email
 
-                        const SignUpUser = await mongodb_callback.SignUp(UserFilter)
+                        const SignUpUser = await mongodb_callback.Insert_user(UserFilter)
                         const user_data = await mongodb_callback.check_duplication_id(id)
 
                         req.session.userdata = user_data._id
@@ -91,7 +87,7 @@ exports.sign_in = async (req, res) => {
 
 exports.index_sign_in = async (req, res) => {
     const { id, pw } = req.body
-    const userdata = await mongodb_callback.login(id)
+    const userdata = await mongodb_callback.check_duplication_id(id)
     if (userdata) {
         user_id = String(userdata._id).split('"')[0]
 
@@ -117,7 +113,7 @@ exports.index_sign_in = async (req, res) => {
 
 exports.logout = (req, res) => {
     req.session.destroy(() => { })
-    res.redirect('/')
+    res.redirect('/users/login')
 }
 
 ///////////edit////////
@@ -149,35 +145,4 @@ exports.delete_logic = async (req, res) => {
     const { user_data } = req.session
     const delete_user = await mongodb_callback.delete_user(user_data)
     res.render('index')
-}
-``
-exports.admin_user_update = async (req, res) => {
-    const { id } = req.body
-    const userdata = await mongodb_callback.check_duplication_id(id)
-    res.render('admin_user_update', { data: userdata })
-}
-
-exports.admin_user_edit = async (req, res) => {
-    const { id, nickname, email, original_id } = req.body
-    const UpdateQuery = {}
-
-    UpdateQuery.id = id
-    UpdateQuery.name = nickname
-    UpdateQuery.email = email
-
-    const user_update = mongodb_callback.update_user_id(original_id, UpdateQuery)
-    const userdata = await mongodb_callback.AllUserData()
-    res.render('admin-user_list', { data: userdata })
-}
-
-exports.admin_user_list = async (req, res) => {
-    const userdata = await mongodb_callback.AllUserData()
-    res.render('admin-user_list', { data: userdata })
-}
-
-exports.admin_user_delete = async (req, res) => {
-    const { original_id } = req.body
-    const user_delete = await mongodb_callback.delete_user_id(original_id)
-    const userdata = await mongodb_callback.AllUserData()
-    res.render('admin-user_list', { data: userdata })
 }

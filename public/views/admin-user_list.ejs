@@ -30,18 +30,18 @@
         <div id="email">
             <%= data[i].email %>
         </div>
-        <form action="/admin_user_update" method="post">
+        <form action="/admin/user_update" method="post">
             <input type="hidden" value="<%= data[i].id %>" name="id">
-            <button type="submit">수정</button>
+            <button onclick="location.reload(true)" type="submit">수정</button>
         </form>
         <br><br>
         <hr>
     <% } %>
     <div>
-        <form action="/logout" method="post"><button type="submit">로그아웃</button></form>
+        <form action="/users/logout" method="post"><button type="submit">로그아웃</button></form>
     </div>
     <div>
-        <form action="/" method="get"><button type="submit">홈으로</button></form>
+        <form action="/users/login" method="get"><button type="submit">홈으로</button></form>
     </div>
 </body>
 
