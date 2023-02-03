@@ -7,7 +7,6 @@ exports.Insert_user = async (UserFilter) => {
 }
 
 exports.check_duplication_id = async (id) => {
-    console.log(id)
     const check_id = await UserColl.findOne({ id: id })
     return check_id
 }
