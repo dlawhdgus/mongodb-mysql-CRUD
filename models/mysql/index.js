@@ -2,12 +2,9 @@ const mysql = require('../../dbs/mysql-connect')
 const table_name = 'local_user'
 const now_date = Date()
 
-exports.find_user_id = (id) => {
+exports.find_user_id = async (id) => {
     const sql = `SELECT * FROM ${table_name} WHERE id = '${id}'`
-    mysql.con.query(sql, (e, r, f) => {
-        if (e) throw e
-        else { return r }
-    })
+    const userdata = await mysql.con.query(sql).sql
 }
 
 exports.Insert_user = async (id, password, name, email, flag) => {

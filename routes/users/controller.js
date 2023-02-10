@@ -1,6 +1,7 @@
 const mongodb_callback = require('../../models/mongodb')
 const mysql_callback = require('../../models/mysql')
 const crypto = require('../../modules/crypto')
+const CheckArr = require('../../modules/array')
 
 exports.index = (req, res) => {
     res.render('index')
@@ -18,22 +19,17 @@ exports.sign_up_logic = async (req, res) => {
     const email_regex = /^[a-z0-9]+@[a-z]+\.[a-z]+$/
     const UserFilter = {}
 
-    const check_id = await mongodb_callback.check_duplication_id(id)
+    const check_id_mysql = mysql_callback.find_user_id(id)
 
-    if (check_id) {
+    if (CheckArr.idEmptyArray(check_id_mysql)) {
         res.write("<script>alert('아이디가 중복되었습니다');history.back();</script>", "utf8")
     } else {
         if (id_regex.test(id) && pw_regex.test(pw) && email_regex.test(email)) {
 
-            UserFilter.id = id
-            UserFilter.pw = crypto.encodig(pw)
-            UserFilter.name = name
-            UserFilter.email = email
-            UserFilter.flag = 'u'
-
-            const SignUpUser = await mongodb_callback.Insert_user(UserFilter)
-            const user_data = await mongodb_callback.check_duplication_id(id)
-            req.session.user_data = String(user_data._id).split('"')[0]
+            const Insert_user = mysql_callback.Insert_user(id,crypto.encodig(pw),name,email,'u')
+            const user_data = mysql_callback.find_user_id2(id)
+            console.log(user_data)
+            // req.session.user_data = 
             res.render('sign-in', { data: user_data })
 
         } else {
