@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 const cofig = require('./config.json')
 const { mongodb_connect } = require('./dbs/mongodb-connect')
-const { mysql_connect } = require('./dbs/mysql-connect')
+const mysql_connect = require('./dbs/mysql-connect')
 const routes = require('./routes')
 const bodyParser = require('body-parser')
 const session = require('express-session')
@@ -29,6 +29,6 @@ app.set('view engine', 'ejs')
 
 app.listen(cofig.port, () => {
     mongodb_connect
-    mysql_connect
+    mysql_connect.connect()
     console.log(`https://jh.jp.ngrok.io/users/login`)
 })
