@@ -26,8 +26,9 @@ exports.sign_up_logic = async (req, res) => {
                     mysql_callback.insert_user(id, crypto.encodig(pw), name, email)
                     const user_data = await mysql_callback.GET_USER_DATA(id)
                     req.session.user_data = user_data
-                    console.log(user_data[0])
-                    // res.redirect('sign-in', { data: user_data[0] })
+                    const userdata = Object(user_data[0])
+                    console.log(userdata)
+                    res.render('sign-in', { data: userdata })
                 } else {
                     res.write("<script>alert('아이디가 중복되었습니다'); history.back();</script>", "utf8")    
                 }

@@ -36,7 +36,7 @@ exports.CHECK_DUPLICATE_ID = async (id) => {
 
 exports.GET_USER_DATA = async (id) => {
     try {
-        const sql = `SELECT id,name,email FROM ${table_name} WHERE id = "${id}"`
+        const sql = `SELECT id,name,email,flag FROM ${table_name} WHERE id = "${id}"`
         const result = await new Promise((resolve,reject) => {
             connection.query(sql, (e,r) => {
                 if(e) reject(e)
