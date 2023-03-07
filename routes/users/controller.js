@@ -21,14 +21,14 @@ exports.sign_up_logic = async (req, res) => {
         if (pw_regex.test(pw)) {
             if (email_regex.test(email)) {
                 const r = await mysql_callback.CHECK_DUPLICATE_ID(id)
-                if(CheckArr.idEmptyArray(r)) {
+                if (CheckArr.idEmptyArray(r)) {
                     mysql_callback.insert_user(id, crypto.encodig(pw), name, email)
                     const user_data = await mysql_callback.GET_USER_DATA(id)
                     const userdata = Object(user_data[0])
                     req.session.user_data = userdata._id
                     res.render('sign-in', { data: userdata })
                 } else {
-                    res.write("<script>alert('아이디가 중복되었습니다'); history.back();</script>", "utf8")    
+                    res.write("<script>alert('아이디가 중복되었습니다'); history.back();</script>", "utf8")
                 }
             } else {
                 res.write("<script>alert('이메일 형식에 맞지 않습니다'); history.back();</script>", "utf8")
@@ -44,16 +44,16 @@ exports.sign_up_logic = async (req, res) => {
 exports.sign_in = async (req, res) => {
     const { user_data } = req.session
     const userdata = await mysql_callback.GET_USER_DATA_ID(user_data)
-    if(userdata[0]) {
-        if(userdata[0].flag === 'u') {
-            
+    if (userdata[0]) {
+        if (userdata[0].flag === 'u') {
+
             res.render('sign-in', { data: userdata[0] })
         } else {
             const ALL_USERDATAS = await mysql_callback.GET_ALL_USERDATA()
             res.render('admin-user_list', { data: ALL_USERDATAS })
         }
     } else {
-        res.write("<script>alert('로그인 후 이용해주세요');history.back();</script>", "utf8")    
+        res.write("<script>alert('로그인 후 이용해주세요');history.back();</script>", "utf8")
     }
 }
 
@@ -61,12 +61,12 @@ exports.index_sign_in = async (req, res) => {
     const { id, pw } = req.body
     const user_data = await mysql_callback.GET_USER_DETAIL_DATA(id)
     const userdata = Object(user_data[0])
-    if(userdata) {
-        if(pw === crypto.decoding(userdata.password)) {
+    if (userdata) {
+        if (pw === crypto.decoding(userdata.password)) {
             const user_data = await mysql_callback.GET_USER_DATA(id)
             const userdata = Object(user_data[0])
             req.session.user_data = userdata._id
-            if(userdata.flag === 'u') {
+            if (userdata.flag === 'u') {
                 res.render('sign-in', { data: userdata })
             } else {
                 const all_user_data = await mysql_callback.GET_ALL_USERDATA()
@@ -100,7 +100,7 @@ exports.update_logic = async (req, res) => {
     if (!id || !nickname || !email) {
         res.write("<script>alert('빈칸을 입력해주세요');history.back();</script>", "utf8")
     } else {
-        const update_userdata = await mysql_callback.UPDATE_USER(id,nickname,email,user_data)
+        const update_userdata = await mysql_callback.UPDATE_USER(id, nickname, email, user_data)
         const userdata = await mysql_callback.GET_USER_DATA_ID(user_data)
         const detail_user_data = Object(userdata[0])
         res.render('sign-in', { data: detail_user_data })
