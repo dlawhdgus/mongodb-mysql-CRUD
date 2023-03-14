@@ -21,7 +21,7 @@ exports.sign_up_logic = async (req, res) => {
     const check_id = await mongodb_callback.check_duplication_id(id)
 
     if (check_id) {
-        res.write("<script>alert('아이디가 중복되었습니다');history.back();</script>", "utf8")
+        res.write("<script>alert('아이디가 중복되었습니다');history.back();</script>", "utf8") //location 다른 페이지
     } else {
         if (id_regex.test(id) && pw_regex.test(pw) && email_regex.test(email)) {
 
