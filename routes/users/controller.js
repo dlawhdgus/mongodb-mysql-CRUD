@@ -21,7 +21,7 @@ exports.sign_up_logic = async (req, res) => {
     const check_id = await mongodb_callback.check_duplication_id(id)
 
     if (check_id) {
-        res.write("<script>alert('아이디가 중복되었습니다');history.back();</script>", "utf8") //location 다른 페이지
+        res.write("<script>alert('아이디가 중복되었습니다');location.href = `https://jh.jp.ngrok.io/users/sign-up`;</script>", "utf8") //location 다른 페이지
     } else {
         if (id_regex.test(id) && pw_regex.test(pw) && email_regex.test(email)) {
 
@@ -53,17 +53,17 @@ exports.sign_up_logic = async (req, res) => {
                         res.redirect('sign-in', { data: user_data })
 
                     } else {
-                        res.write("<script>alert('이메일 형식에 맞춰주세요');history.back();</script>", "utf8")
+                        res.write("<script>alert('이메일 형식에 맞춰주세요');location.href = `https://jh.jp.ngrok.io/users/sign-up`;</script>", "utf8")
                     }
                 } else {
                     res.write(`
                     <script>
                         alert('비밀번호는 영문,숫자만 가능합니다');
-                        history.back();
+                        location.href = "https://jh.jp.ngrok.io/users/sign-up";
                     </script>`, "utf8")
                 }
             } else {
-                res.write("<script>alert('아이디는 영문만 가능합니다');history.back();</script>", "utf8")
+                res.write("<script>alert('아이디는 영문만 가능합니다');location.href = `https://jh.jp.ngrok.io/users/sign-up`;</script>", "utf8")
             }
         }
     }
@@ -73,7 +73,7 @@ exports.sign_up_logic = async (req, res) => {
 exports.sign_in = async (req, res) => {
     const { user_data } = req.session
     if (!user_data) {
-        res.write("<script>alert('로그인 후 이용해주세요');history.back();</script>", "utf8")
+        res.write("<script>alert('로그인 후 이용해주세요');location.href = `https://jh.jp.ngrok.io/users/login`;</script>", "utf8")
     } else {
         const userdata = await mongodb_callback.check_obj_id(user_data)
         if (userdata.flag === 'u') {
@@ -103,11 +103,11 @@ exports.index_sign_in = async (req, res) => {
             }
 
         } else {
-            res.write("<script>alert('잘못된 비밀번호');history.back();</script>", "utf8")
+            res.write("<script>alert('잘못된 비밀번호');location.href = `https://jh.jp.ngrok.io/users/login`;</script>", "utf8")
         }
 
     } else {
-        res.write("<script>alert('잘못된 아이디');history.back();</script>", "utf8")
+        res.write("<script>alert('잘못된 아이디');location.href = `https://jh.jp.ngrok.io/users/login`;</script>", "utf8")
     }
 }
 
@@ -129,7 +129,7 @@ exports.update_logic = async (req, res) => {
     const { user_data } = req.session
     const UpdateQuery = {}
     if (!id || !nickname || !email) {
-        res.write("<script>alert('빈칸을 입력해주세요');history.back();</script>", "utf8")
+        res.write("<script>alert('빈칸을 입력해주세요');location.href = `https://jh.jp.ngrok.io/users/sign-up`;</script>", "utf8")
     } else {
         UpdateQuery.id = id
         UpdateQuery.name = nickname

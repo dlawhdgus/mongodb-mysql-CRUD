@@ -32,7 +32,7 @@
         </div>
         <form action="/admin/user_update" method="post">
             <input type="hidden" value="<%= data[i].id %>" name="id">
-            <button onclick="location.reload(true)" type="submit">수정</button>
+            <button onclick="window.location.reload(true)" type="submit">수정</button>
         </form>
         <br><br>
         <hr>
@@ -43,6 +43,12 @@
     <div>
         <form action="/users/login" method="get"><button type="submit">홈으로</button></form>
     </div>
+
+    <script>
+        setTimeout(function() {
+            window.location.reload(true);
+        }, 1000);
+    </script>
 </body>
 
 </html>

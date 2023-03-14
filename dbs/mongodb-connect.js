@@ -1,6 +1,8 @@
 const config = require('../config.json')
 const mongoose = require('mongoose')
 
+mongoose.set('strictQuery', false)
+
 mongoose.connect(config.mongodb.connect_string, {
     dbName: 'db'
 })
