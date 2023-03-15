@@ -1,10 +1,10 @@
-const mysql = require('mysql2/promise')
+const mysql = require('mysql2')
 const config = require('../config.json')
+const connection = mysql.createConnection(config.mysql)
 
-const connect = async () => {
-    const connection = await mysql.createConnection(config.mysql)
-    console.log('Mysql Connected')
-    return connection
-}
+connection.connect((e) => {
+    if(e) console.log(e)
+    else console.log("Mysql Connected")
+})
 
-module.exports = { connect }
+module.exports = connection
