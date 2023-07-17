@@ -2,10 +2,7 @@ const express = require('express')
 const app = express()
 const cofig = require('./config.json')
 const { mongodb_connect } = require('./dbs/mongodb-connect')
-<<<<<<< HEAD
-=======
 const mysql_connect = require('./dbs/mysql-connect')
->>>>>>> mysql-version
 const routes = require('./routes')
 const bodyParser = require('body-parser')
 const session = require('express-session')
