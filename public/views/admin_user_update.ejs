@@ -14,6 +14,7 @@
         <input type="text" value="<%= data.id %>" name="id"><br>
         <input type="text" value="<%= data.name %>" name="nickname"><br>
         <input type="email" value="<%= data.email %>" name="email"><br>
+<<<<<<< HEAD
         <input type="hidden" value="<%= data.id %>" name="original_id">
         <div id="button"><button onclick="window.location.reload()" type="submit">수정</button></div>
     </form>
@@ -21,6 +22,15 @@
         <form action="/admin/user_delete" method="post">
             <input type="hidden" value="<%= data.id %>" name="original_id">
             <button onclick="window.location.reload(true)" type="submit">삭제</button>
+=======
+        <input type="hidden" value="<%= data._id %>" name="_id">
+        <div id="button"><button onclick="location.reload(true)" type="submit">수정</button></div>
+    </form>
+    <div id="button">
+        <form action="/admin/user_delete" method="post">
+            <input type="hidden" value="<%= data._id %>" name="_id">
+            <button onclick="location.reload(true)" type="submit">삭제</button>
+>>>>>>> mysql-version
         </form>
     </div>
     <div id="button">

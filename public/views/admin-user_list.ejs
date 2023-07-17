@@ -10,7 +10,6 @@
 </head>
 
 <body>
-    <!-- users-list -->
     <div class="title">
         <div id="id">아이디</div>
         <div id="nickname">닉네임</div>
@@ -20,19 +19,30 @@
     <% for(var i=0; i<data.length; i++) { %>
         <div id="number">
             <%= i+1 %>
-        </div>
+        </div><br>
         <div id="id">
-            <%= data[i].id %>
-        </div>
+            아이디 : <%= data[i].id %>
+        </div><br>
         <div id="nickname">
-            <%= data[i].name %>
-        </div>
+            닉네임 : <%= data[i].name %>
+        </div><br>
         <div id="email">
-            <%= data[i].email %>
-        </div>
+            이메일  : <%= data[i].email %>
+        </div><br>
+        <div>
+            회원가입 날짜 : <%= data[i].insert_date %>
+        </div><br>
+        <div>
+            최종수정 날짜 :<%= data[i].update_date %>
+        </div><br>
         <form action="/admin/user_update" method="post">
+<<<<<<< HEAD
             <input type="hidden" value="<%= data[i].id %>" name="id">
             <button onclick="window.location.reload(true)" type="submit">수정</button>
+=======
+            <input type="hidden" value="<%= data[i]._id %>" name="_id">
+            <button onclick="location.reload(true)" type="submit">수정</button>
+>>>>>>> mysql-version
         </form>
         <br><br>
         <hr>
